@@ -6,14 +6,14 @@ const input = document.querySelector('input');
 
 todoForm.addEventListener("submit", function (event) {
   event.preventDefault();
- 
+
   const inputValue = input.value;
   // console.log(inputValue);
-  
+
   if (inputValue != "") {
     const task = {
-       id: new Date().getTime(),
-       name: inputValue,
+      id: new Date().getTime(),
+      name: inputValue,
     };
     tasks.push(task);
     // console.log(tasks);
@@ -24,9 +24,9 @@ todoForm.addEventListener("submit", function (event) {
   input.focus();
 });
 
-const createTask  = function (task) {
+const createTask = function (task) {
   const taskItem = document.createElement("li");
-  taskItem.setAttribute("id",task.id);
+  taskItem.setAttribute("id", task.id);
   const taskHtml = `
   <div class = "list-wrapper">
   <input type="checkbox" id="${task.id}">
@@ -39,26 +39,26 @@ const createTask  = function (task) {
   </div>
   `;
   taskItem.innerHTML = taskHtml;
-  todoList.appendChild(taskItem); 
+  todoList.appendChild(taskItem);
 }
 
 todoList.addEventListener("click", (e) => {
   if (e.target.classList.contains("edit-btn")) {
-        const taskId = e.target.closest("li").id;
-        const taskSpan = document.getElementById(taskId).querySelector("span");
-        // console.log(taskSpan.textContent);
-        if(e.target.textContent == 'Edit') {
-            e.target.textContent= "Save";
-            taskSpan.contentEditable = true;
-            taskSpan.focus();
-        } else {
-          e.target.textContent = "Edit";
-          taskSpan.contentEditable = false;
-        }
-      } else if (e.target.classList.contains("delete-btn")) {
-        const taskId = e.target.closest("li").id;
-        // console.log(taskId);
-        document.getElementById(taskId).remove();
-      }
+    const taskId = e.target.closest("li").id;
+    const taskSpan = document.getElementById(taskId).querySelector("span");
+    // console.log(taskSpan.textContent);
+    if (e.target.textContent == 'Edit') {
+      e.target.textContent = "Save";
+      taskSpan.contentEditable = true;
+      taskSpan.focus();
+    } else {
+      e.target.textContent = "Edit";
+      taskSpan.contentEditable = false;
+    }
+  } else if (e.target.classList.contains("delete-btn")) {
+    const taskId = e.target.closest("li").id;
+    // console.log(taskId);
+    document.getElementById(taskId).remove();
+  }
 });
 
