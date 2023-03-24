@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,400;0,700;1,400;1,700&family=Raleway:wght@700&family=Roboto:wght@400;500&family=Titillium+Web:ital@0;1&display=swap");
+
+* {
+  outline: none;
+}
+
+body {
+  background-color: rgba(0, 0, 0, 0.833);
+  font-family: "Comic Neue", sans-serif;
+  color: aliceblue;
+}
+
+.container {
+  width: 800px;
+  margin: 100px auto;
+}
+
+h1 {
+  font-weight: 700;
+  padding: 0 300px;
+}
+.todo-form {
+  display: inline-grid;
+  grid-template-columns: 2fr 1fr;
+  grid-column-gap: 10px;
+  width: 800px;
+  font-family: inherit;
+}
+
+.todo-form input {
+  width: 100%;
+  height: 30px;
+  font-family: inherit;
+}
+.todo-form button {
+  width: 100%;
+  height: 36px;
+  border: 1px solid rgb(17, 78, 95);
+  background-color: rgb(34, 160, 156);
+  text-transform: uppercase;
+  font-size: 16px;
+  color: aliceblue;
+  font-family: inherit;
+}
+.todo-form button:hover {
+  background-color: rgb(23, 123, 118);
+  font-family: inherit;
+}
+
+.todo-list {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+}
+li {
+  display: flex;
+  justify-content: space-between;
+  content: counter(numbers);
+}
+input:checked ~ span {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.list-btn .edit-btn, .delete-btn{
+  font-family: inherit;
+  width: 50px;
+  background-color: rgb(135, 88, 165);
+  color: inherit;
+  border: 2px solid rgb(66, 177, 210);
+  border-radius: 5px;
+}
+
