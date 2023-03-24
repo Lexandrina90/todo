@@ -1,64 +1,101 @@
 const todoForm = document.querySelector('.todo-form');
-const todoList = document.querySelector('.todo-list')
-let tasks = [];
+const todoList = document.querySelector('.todo-list');
 
+const tasks = [];
 const input = document.querySelector('input');
+
+const addTask = function (task) {
+  tasks.push({
+    text: task,
+    isDone: false
+  });
+  input.value="";
+  displayTasks();
+}
+const deleteTask = function (index) {
+  tasks.splice(index, 1);
+  displayTasks();
+}
+const toggleDone = function (index) {
+  tasks[index].isDone = !tasks[index].isDone;
+  displayTasks();
+}
+
+
+const displayTasks = function () {
+  todoList.innerHTML = '';
+
+  tasks.forEach((task, index) => {
+    const taskItem = document.createElement('li');
+
+    const listWrap = document.createElement('div');
+    taskItem.appendChild(listWrap);
+
+    //checkbox
+    const checkbox = document.createElement('input');
+    checkbox.type = "checkbox";
+    checkbox.checked = task.isDone;
+    checkbox.addEventListener('click', () => {
+      toggleDone(index);
+    });
+    listWrap.appendChild(checkbox);
+
+    //taskText
+    const taskText = document.createElement('span');
+    taskText.textContent = task.text;
+    listWrap.appendChild(taskText);
+
+
+    //BTN
+    const listBtn = document.createElement('div');
+    listBtn.className = "list-btn";
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = "Edit";
+    editBtn.className = "edit-btn";
+    editBtn.addEventListener('click', () => {
+      if (editBtn.textContent == "Edit") {
+        editBtn.textContent = "Save";
+        taskText.contentEditable = true;
+        taskText.focus();
+      } else {
+        editBtn.textContent = "Edit";
+        taskText.contentEditable = false;
+      }
+      })
+    listBtn.appendChild(editBtn);
+
+    const deleteBtn = document.createElement('button');
+    deleteBtn.textContent = "Delete"
+    deleteBtn.className = "delete-btn";
+    deleteBtn.addEventListener('click', () => {
+      deleteTask(index);
+    })
+    listBtn.appendChild(deleteBtn);
+
+
+    taskItem.appendChild(listBtn);
+
+    todoList.appendChild(taskItem);
+  })
+}
+
 
 todoForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
   const inputValue = input.value;
-  // console.log(inputValue);
-
   if (inputValue != "") {
-    const task = {
-      id: new Date().getTime(),
-      name: inputValue,
-    };
-    tasks.push(task);
-    // console.log(tasks);
-    createTask(task);
-
-    todoForm.reset();
+    addTask(inputValue);
   }
   input.focus();
-});
+})
 
-const createTask = function (task) {
-  const taskItem = document.createElement("li");
-  taskItem.setAttribute("id", task.id);
-  const taskHtml = `
-  <div class = "list-wrapper">
-  <input type="checkbox" id="${task.id}">
-  <label for="${task.name}"></label>
-  <span>${task.name}</span>
-  </div>
-  <div class="list-btn">
-  <button class="edit-btn">Edit</button>
-  <button class="delete-btn">Delete</button>
-  </div>
-  `;
-  taskItem.innerHTML = taskHtml;
-  todoList.appendChild(taskItem);
-}
+displayTasks();
 
-todoList.addEventListener("click", (e) => {
-  if (e.target.classList.contains("edit-btn")) {
-    const taskId = e.target.closest("li").id;
-    const taskSpan = document.getElementById(taskId).querySelector("span");
-    // console.log(taskSpan.textContent);
-    if (e.target.textContent == 'Edit') {
-      e.target.textContent = "Save";
-      taskSpan.contentEditable = true;
-      taskSpan.focus();
-    } else {
-      e.target.textContent = "Edit";
-      taskSpan.contentEditable = false;
-    }
-  } else if (e.target.classList.contains("delete-btn")) {
-    const taskId = e.target.closest("li").id;
-    // console.log(taskId);
-    document.getElementById(taskId).remove();
-  }
-});
+
+
+
+
+
 
