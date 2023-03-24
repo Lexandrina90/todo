@@ -70,4 +70,7 @@ input:checked ~ span {
   border: 2px solid rgb(66, 177, 210);
   border-radius: 5px;
 }
+span{
+  font-family: inherit;
+}
 
