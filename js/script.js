@@ -91,6 +91,14 @@ todoForm.addEventListener("submit", function (event) {
   input.focus();
 })
 
+const dropBtn = document.querySelector('.drop-btn');
+dropBtn.addEventListener('click', () => {
+  document.querySelector('.drop-content').classList.toggle('show');
+  
+});
+
+
+
 displayTasks();
 
 
