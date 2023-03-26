@@ -2,6 +2,7 @@ const todoForm = document.querySelector('.todo-form');
 const todoList = document.querySelector('.todo-list');
 
 const tasks = [];
+let filteredTasks = tasks.slice();
 const input = document.querySelector('input');
 
 const addTask = function (task) {
@@ -9,15 +10,32 @@ const addTask = function (task) {
     text: task,
     isDone: false
   });
-  input.value="";
-  displayTasks();
+  input.value = "";
+  filterTasks();
 }
 const deleteTask = function (index) {
   tasks.splice(index, 1);
-  displayTasks();
+  filterTasks();
 }
 const toggleDone = function (index) {
   tasks[index].isDone = !tasks[index].isDone;
+  filterTasks();
+}
+
+const filterTasks = function() {
+const select = document.querySelector('.drop');
+let selectedValue = select.value;
+  switch (selectedValue) {
+    case "all":
+     filteredTasks = tasks.slice(); // copy all tasks
+      break;
+    case "active":
+      filteredTasks = tasks.filter(task => !task.isDone);
+      break;
+    case "done":
+      filteredTasks = tasks.filter(task => task.isDone);
+      break;
+  }
   displayTasks();
 }
 
@@ -25,7 +43,7 @@ const toggleDone = function (index) {
 const displayTasks = function () {
   todoList.innerHTML = '';
 
-  tasks.forEach((task, index) => {
+  filteredTasks.forEach((task, index) => {
     const taskItem = document.createElement('li');
 
     const listWrap = document.createElement('div');
@@ -62,7 +80,7 @@ const displayTasks = function () {
         editBtn.textContent = "Edit";
         taskText.contentEditable = false;
       }
-      })
+    })
     listBtn.appendChild(editBtn);
 
     const deleteBtn = document.createElement('button');
@@ -91,19 +109,52 @@ todoForm.addEventListener("submit", function (event) {
   input.focus();
 })
 
-const dropBtn = document.querySelector('.drop-btn');
-dropBtn.addEventListener('click', () => {
-  document.querySelector('.drop-content').classList.toggle('show');
-  
-});
-
-
-
 displayTasks();
 
+const select = document.querySelector('.drop');
+select.addEventListener('change', function() {
+  filterTasks();
+})
+// const filterActive = function () {
+//   const filteredTasks = tasks.filter(task => !task.isDone);
+//   tasks = filteredTasks;
+//   displayTasks();
+// }
+// const filterDone = function () {
+//   const filteredTasks = tasks.filter(task => task.isDone);
+//   tasks = filteredTasks;
+//   displayTasks();
+
+// }
 
 
 
+
+
+
+// const dropBtn = document.querySelector('.drop-btn');
+// dropBtn.addEventListener('click', () => {
+//   document.querySelector('.drop-content').classList.toggle('show');
+
+// });
+
+
+// const select = document.querySelector('.drop');
+// select.addEventListener('change', function () {
+//   let selectedValue = select.value;
+//   switch (selectedValue) {
+//     case "all":
+//       displayTasks();
+//       break;
+//     case "active":
+//       filterActive();
+//       break;
+//     case "done":
+//       console.log('done')
+//       filterDone();
+//       break;
+//   }
+// })
 
 
 
