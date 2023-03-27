@@ -1,9 +1,15 @@
 const todoForm = document.querySelector('.todo-form');
 const todoList = document.querySelector('.todo-list');
+const input = document.querySelector('input');
 
 const tasks = [];
 let filteredTasks = tasks.slice();
-const input = document.querySelector('input');
+const filterKeys = [
+  {value:'all', selected: true},
+  {value: 'active', selected: false},
+  {value: 'done', selected: false}
+];
+
 
 const addTask = function (task) {
   tasks.push({
@@ -22,21 +28,23 @@ const toggleDone = function (index) {
   filterTasks();
 }
 
-const filterTasks = function() {
-const select = document.querySelector('.drop');
-let selectedValue = select.value;
-  switch (selectedValue) {
+const filterTasks = function () {
+  for (let i = 0; i < filterKeys.length; i++) {
+    if (filterKeys[i].selected == true) {
+      switch(filterKeys[i].value) {
     case "all":
-     filteredTasks = tasks.slice(); // copy all tasks
+    
       break;
     case "active":
       filteredTasks = tasks.filter(task => !task.isDone);
+      // tasks = tasks.map(x,i) => []
       break;
     case "done":
       filteredTasks = tasks.filter(task => task.isDone);
       break;
   }
   displayTasks();
+    }}
 }
 
 
@@ -112,9 +120,24 @@ todoForm.addEventListener("submit", function (event) {
 displayTasks();
 
 const select = document.querySelector('.drop');
-select.addEventListener('change', function() {
+select.addEventListener('change', function () {
+  selectedValue = select.value;
+  index = select.selectedIndex;
+  // console.log(index);
+  filterKeys.forEach((key) => key.selected = false)
+  filterKeys[index].selected = true;
+  console.log(filterKeys);
   filterTasks();
 })
+
+
+
+
+
+
+
+
+
 // const filterActive = function () {
 //   const filteredTasks = tasks.filter(task => !task.isDone);
 //   tasks = filteredTasks;

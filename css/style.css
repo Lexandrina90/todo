@@ -57,6 +57,9 @@ h1 {
   font-family: inherit;
 }
 
+option {
+  font-family: inherit;
+}
 
 /* 
 .filter-dropdown {
