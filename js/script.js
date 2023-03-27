@@ -3,11 +3,11 @@ const todoList = document.querySelector('.todo-list');
 const input = document.querySelector('input');
 
 const tasks = [];
-let filteredTasks = tasks.slice();
+let filteredTasks = [];
 const filterKeys = [
-  {value:'all', selected: true},
-  {value: 'active', selected: false},
-  {value: 'done', selected: false}
+  { value: 'all', selected: true },
+  { value: 'active', selected: false },
+  { value: 'done', selected: false }
 ];
 
 
@@ -20,7 +20,9 @@ const addTask = function (task) {
   filterTasks();
 }
 const deleteTask = function (index) {
-  tasks.splice(index, 1);
+  const taskText = filteredTasks[index].text;
+  const taskIndex = tasks.findIndex(task => task.text === taskText);
+  tasks.splice(taskIndex, 1);
   filterTasks();
 }
 const toggleDone = function (index) {
@@ -28,23 +30,24 @@ const toggleDone = function (index) {
   filterTasks();
 }
 
+
 const filterTasks = function () {
   for (let i = 0; i < filterKeys.length; i++) {
     if (filterKeys[i].selected == true) {
-      switch(filterKeys[i].value) {
-    case "all":
-    
-      break;
-    case "active":
-      filteredTasks = tasks.filter(task => !task.isDone);
-      // tasks = tasks.map(x,i) => []
-      break;
-    case "done":
-      filteredTasks = tasks.filter(task => task.isDone);
-      break;
+      switch (filterKeys[i].value) {
+        case "all":
+          filteredTasks = tasks.slice();
+          break;
+        case "active":
+          filteredTasks = tasks.filter(task => !task.isDone);
+          break;
+        case "done":
+          filteredTasks = tasks.filter(task => task.isDone);
+          break;
+      }
+      displayTasks();
+    }
   }
-  displayTasks();
-    }}
 }
 
 
@@ -80,14 +83,19 @@ const displayTasks = function () {
     editBtn.textContent = "Edit";
     editBtn.className = "edit-btn";
     editBtn.addEventListener('click', () => {
-      if (editBtn.textContent == "Edit") {
+      const isEditing = taskText.isContentEditable;
+      if (!isEditing) {
         editBtn.textContent = "Save";
         taskText.contentEditable = true;
         taskText.focus();
       } else {
         editBtn.textContent = "Edit";
         taskText.contentEditable = false;
+        filteredTasks[index].text = taskText.textContent;
+        filterTasks();
       }
+
+
     })
     listBtn.appendChild(editBtn);
 
@@ -117,7 +125,8 @@ todoForm.addEventListener("submit", function (event) {
   input.focus();
 })
 
-displayTasks();
+// displayTasks();
+
 
 const select = document.querySelector('.drop');
 select.addEventListener('change', function () {
